@@ -10,8 +10,6 @@ export default defineConfig({
 
   server: {
     host: "0.0.0.0",
-    allowedHosts: [
-      "attendance-system-frontend-5biv.onrender.com",
-    ],
+    allowedHosts: true,
   },
 });
