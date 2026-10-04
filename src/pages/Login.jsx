@@ -15,7 +15,7 @@ function Login() {
       const response = await axios.post(
         "https://attendance-system-backend-bbl8.onrender.com/api/auth/login",
         {
-          email,
+          email: email.trim().toLowerCase(),
           password,
         }
       );
@@ -23,10 +23,7 @@ function Login() {
       console.log("Login response:", response.data);
 
       // Save token
-      localStorage.setItem(
-        "token",
-        response.data.token
-      );
+      localStorage.setItem("token", response.data.token);
 
       // Save user information
       localStorage.setItem(
@@ -34,23 +31,14 @@ function Login() {
         JSON.stringify(response.data.user)
       );
 
-      alert("Login successful!");
-
-      // =========================
-      // ROLE BASED REDIRECT
-      // =========================
-
+      // Role based redirect
       if (response.data.user.role === "admin") {
         navigate("/admin");
       } else {
         navigate("/attendance");
       }
-
     } catch (error) {
-      console.error(
-        "Login error:",
-        error
-      );
+      console.error("Login error:", error);
 
       alert(
         error.response?.data?.message ||
@@ -71,9 +59,7 @@ function Login() {
         <form onSubmit={handleLogin}>
 
           {/* EMAIL */}
-
           <div className="mb-4">
-
             <label className="block text-sm font-semibold mb-2">
               Email
             </label>
@@ -82,19 +68,14 @@ function Login() {
               type="email"
               placeholder="Enter email"
               value={email}
-              onChange={(e) =>
-                setEmail(e.target.value)
-              }
+              onChange={(e) => setEmail(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
-
           </div>
 
           {/* PASSWORD */}
-
           <div className="mb-6">
-
             <label className="block text-sm font-semibold mb-2">
               Password
             </label>
@@ -103,17 +84,13 @@ function Login() {
               type="password"
               placeholder="Enter password"
               value={password}
-              onChange={(e) =>
-                setPassword(e.target.value)
-              }
+              onChange={(e) => setPassword(e.target.value)}
               className="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
               required
             />
-
           </div>
 
           {/* LOGIN */}
-
           <button
             type="submit"
             className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition"
@@ -121,10 +98,20 @@ function Login() {
             Login
           </button>
 
+          {/* SIGN UP */}
+          <p className="mt-6 text-center text-gray-600">
+            Don't have an account?{" "}
+            <button
+              type="button"
+              onClick={() => navigate("/signup")}
+              className="text-blue-600 font-semibold hover:underline"
+            >
+              Sign Up
+            </button>
+          </p>
+
         </form>
-
       </div>
-
     </div>
   );
 }

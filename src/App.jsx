@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import OfficeLocation from "./pages/OfficeLocation";
 import Attendance from "./pages/Attendance";
 import AdminDashboard from "./pages/AdminDashboard";
+import Signup from "./pages/Signup";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           path="/"
           element={<Login />}
         />
-
+        <Route path="/signup" element={<Signup />} />
         <Route
           path="/office-location"
           element={<OfficeLocation />}
