@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "https://attendance-system-backend-bbl8.onrender.com";
+const API_URL = "https://attendance-system-backend-bbl8.onrender.com/api/auth/signup";
 
 function Signup() {
   const navigate = useNavigate();
