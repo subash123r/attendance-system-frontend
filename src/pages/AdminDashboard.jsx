@@ -225,7 +225,7 @@ const AdminDashboard = () => {
                 </p>
 
                 <p className="text-sm text-gray-400 mt-1">
-                  ₹35 / hour
+                  ₹45 / hour
                 </p>
               </div>
 

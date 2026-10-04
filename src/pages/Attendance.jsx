@@ -580,7 +580,7 @@ const Attendance = () => {
               </p>
 
               <p className="text-2xl font-bold text-blue-600">
-                ₹35
+                ₹45
                 <span className="text-sm font-normal">
                   {" "}
                   / hour
@@ -621,7 +621,7 @@ const Attendance = () => {
 
               <p className="font-semibold">
                 {totalWorkingHours.toFixed(2)}
-                {" × ₹35"}
+                {" × ₹45"}
               </p>
 
               <p className="font-bold text-green-600">
