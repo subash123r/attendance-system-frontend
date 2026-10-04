@@ -2,7 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "https://attendance-system-backend-bbl8.onrender.com/api/auth/signup";
+const API_URL =
+  "https://attendance-system-backend-bbl8.onrender.com";
 
 function Signup() {
   const navigate = useNavigate();
@@ -28,7 +29,20 @@ function Signup() {
 
     setMessage("");
 
-    if (!formData.name || !formData.email || !formData.password) {
+    console.log("========== SIGNUP FRONTEND ==========");
+    console.log("API URL:", `${API_URL}/api/auth/signup`);
+    console.log("Name:", formData.name);
+    console.log("Email:", formData.email);
+    console.log(
+      "Password provided:",
+      formData.password ? "YES" : "NO"
+    );
+
+    if (
+      !formData.name ||
+      !formData.email ||
+      !formData.password
+    ) {
       setMessage("Please fill all fields");
       return;
     }
@@ -36,26 +50,48 @@ function Signup() {
     try {
       setLoading(true);
 
+      console.log("Sending signup request...");
+
       const response = await axios.post(
         `${API_URL}/api/auth/signup`,
-        formData
+        {
+          name: formData.name.trim(),
+          email: formData.email.trim().toLowerCase(),
+          password: formData.password,
+        }
       );
 
-      setMessage(response.data.message || "Account created successfully!");
+      console.log("Signup response:", response.data);
+
+      setMessage(
+        response.data.message ||
+          "Account created successfully!"
+      );
 
       setTimeout(() => {
         navigate("/");
       }, 1500);
     } catch (error) {
-  console.error("Signup error:", error);
+      console.error("========== SIGNUP ERROR ==========");
+      console.error("Error:", error);
+      console.error(
+        "Status:",
+        error.response?.status
+      );
+      console.error(
+        "Backend response:",
+        error.response?.data
+      );
+      console.error(
+        "Request URL:",
+        error.config?.url
+      );
 
-  console.log("Backend response:", error.response?.data);
-
-  setMessage(
-    error.response?.data?.message ||
-    "Signup failed. Please try again."
-  );
-} finally {
+      setMessage(
+        error.response?.data?.message ||
+          "Signup failed. Please try again."
+      );
+    } finally {
       setLoading(false);
     }
   };
@@ -63,7 +99,6 @@ function Signup() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
-
         <h1 className="text-3xl font-bold text-center text-gray-800 mb-2">
           Create Account
         </h1>
@@ -72,9 +107,10 @@ function Signup() {
           Register as an employee
         </p>
 
-        <form onSubmit={handleSignup} className="space-y-5">
-
-          {/* Name */}
+        <form
+          onSubmit={handleSignup}
+          className="space-y-5"
+        >
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Name
@@ -87,10 +123,10 @@ function Signup() {
               onChange={handleChange}
               placeholder="Enter your name"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
-          {/* Email */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
@@ -103,10 +139,10 @@ function Signup() {
               onChange={handleChange}
               placeholder="Enter your email"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
-          {/* Password */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
@@ -119,27 +155,27 @@ function Signup() {
               onChange={handleChange}
               placeholder="Enter password"
               className="w-full border border-gray-300 rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+              required
             />
           </div>
 
-          {/* Message */}
           {message && (
             <p className="text-center text-sm text-blue-600 font-medium">
               {message}
             </p>
           )}
 
-          {/* Signup */}
           <button
             type="submit"
             disabled={loading}
             className="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition disabled:opacity-50"
           >
-            {loading ? "Creating Account..." : "Sign Up"}
+            {loading
+              ? "Creating Account..."
+              : "Sign Up"}
           </button>
         </form>
 
-        {/* Login */}
         <p className="text-center text-gray-600 mt-6">
           Already have an account?{" "}
           <button
@@ -150,7 +186,6 @@ function Signup() {
             Login
           </button>
         </p>
-
       </div>
     </div>
   );
